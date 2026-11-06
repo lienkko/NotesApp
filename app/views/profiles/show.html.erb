@@ -1,0 +1,22 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "profiles", "data-turbo-track": "reload" %>
+<% end %>
+
+<main class="profile-page">
+  <section class="profile-card">
+    <%= link_to "Notes App", root_path, class: "profile-brand" %>
+    <p class="profile-eyebrow">Личный кабинет</p>
+    <h1>Мой профиль</h1>
+    <p class="profile-description">Здесь находятся данные вашего аккаунта.</p>
+
+    <div class="profile-email">
+      <span class="profile-label">Электронная почта</span>
+      <span class="profile-value"><%= @user.email_address %></span>
+    </div>
+
+    <div class="profile-actions">
+      <%= link_to "Сменить пароль", edit_profile_password_path, class: "button button-primary" %>
+      <%= button_to "Выйти из аккаунта", session_path, method: :delete, class: "button button-outline" %>
+    </div>
+  </section>
+</main>

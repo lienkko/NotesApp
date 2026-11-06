@@ -1,0 +1,20 @@
+<div class="home-page">
+  <header class="site-header">
+    <%= link_to "Notes App", root_path, class: "brand" %>
+    <% if authenticated? %>
+      <%= link_to "Профиль", profile_path, class: "button button-outline" %>
+    <% else %>
+      <%= link_to "Войти", new_session_path, class: "button button-outline" %>
+    <% end %>
+  </header>
+
+  <main class="hero">
+    <p class="eyebrow">Пространство для ваших мыслей</p>
+    <h1>Сохраняйте важное<br>в одном месте.</h1>
+    <p class="hero-description">
+      Notes App помогает быстро записывать идеи, планы и заметки,
+      чтобы ничего важного не потерялось.
+    </p>
+    <%= link_to "Начать работу", profile_path, class: "button button-primary" %>
+  </main>
+</div>

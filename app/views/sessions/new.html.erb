@@ -1,0 +1,36 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "sessions", "data-turbo-track": "reload" %>
+<% end %>
+
+<main class="auth-page">
+  <section class="auth-card">
+    <%= link_to "Notes App", root_path, class: "auth-brand" %>
+    <p class="auth-eyebrow">С возвращением</p>
+    <h1>Войти в аккаунт</h1>
+
+    <br>
+
+    <% if flash[:alert] %>
+      <p class="auth-message auth-message-error"><%= flash[:alert] %></p>
+    <% end %>
+    <% if flash[:notice] %>
+      <p class="auth-message auth-message-success"><%= flash[:notice] %></p>
+    <% end %>
+
+    <%= form_with url: session_path, class: "auth-form" do |form| %>
+      <div class="form-field">
+        <%= form.label :email_address, "Электронная почта" %>
+        <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "you@example.com", value: params[:email_address] %>
+      </div>
+
+      <div class="form-field">
+        <%= form.label :password, "Пароль" %>
+        <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Введите пароль", maxlength: 72 %>
+      </div>
+
+      <%= form.submit "Войти", class: "button button-primary auth-submit" %>
+    <% end %>
+
+    <%= link_to "Забыли пароль?", new_password_path, class: "auth-link" %>
+  </section>
+</main>
