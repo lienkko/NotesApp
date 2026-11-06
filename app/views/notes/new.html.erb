@@ -1,0 +1,38 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "notes", "data-turbo-track": "reload" %>
+<% end %>
+
+<main class="notes-app">
+  <header class="notes-header">
+    <%= link_to "Notes App", "#", class: "brand" %>
+    <%= link_to "← К заметкам", "#", class: "text-button" %>
+  </header>
+  <section class="editor-content">
+    <p class="eyebrow">Новая запись</p>
+    <h1>Создать заметку</h1>
+    <form class="note-form" action="#" method="post">
+      <div class="form-field">
+        <label for="new-note-title">Заголовок</label>
+        <input id="new-note-title" type="text" name="title" placeholder="Например, идеи для проекта" required>
+      </div>
+      <div class="form-field">
+        <label for="new-note-body">Текст заметки</label>
+        <textarea id="new-note-body" name="body" rows="10" placeholder="Запишите всё, что не хотите забыть..."></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label for="new-note-category">Категория</label>
+          <select id="new-note-category" name="category"><option>Без категории</option><option>Учёба</option><option>Работа</option><option>Личное</option></select>
+        </div>
+        <div class="form-field">
+          <label for="new-note-tags">Теги</label>
+          <input id="new-note-tags" type="text" name="tags" placeholder="ruby, идеи">
+        </div>
+      </div>
+      <div class="form-actions">
+        <%= link_to "Отмена", "#", class: "button button-outline" %>
+        <button type="submit" class="button button-primary">Сохранить заметку</button>
+      </div>
+    </form>
+  </section>
+</main>

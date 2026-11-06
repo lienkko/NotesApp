@@ -1,0 +1,23 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "notes", "data-turbo-track": "reload" %>
+<% end %>
+
+<main class="notes-app">
+  <header class="notes-header">
+    <%= link_to "Notes App", "#", class: "brand" %>
+    <%= link_to "← К заметке", "#", class: "text-button" %>
+  </header>
+  <section class="editor-content">
+    <p class="eyebrow">Редактирование</p>
+    <h1>Изменить заметку</h1>
+    <form class="note-form" action="#" method="post">
+      <div class="form-field"><label for="edit-note-title">Заголовок</label><input id="edit-note-title" type="text" value="План подготовки к экзамену" required></div>
+      <div class="form-field"><label for="edit-note-body">Текст заметки</label><textarea id="edit-note-body" rows="10">Повторить темы по Ruby, подготовить вопросы и решить практические задания.</textarea></div>
+      <div class="form-row">
+        <div class="form-field"><label for="edit-note-category">Категория</label><select id="edit-note-category"><option>Учёба</option><option>Работа</option><option>Личное</option></select></div>
+        <div class="form-field"><label for="edit-note-tags">Теги</label><input id="edit-note-tags" type="text" value="ruby, экзамен"></div>
+      </div>
+      <div class="form-actions"><%= link_to "Отмена", "#", class: "button button-outline" %><button type="submit" class="button button-primary">Сохранить изменения</button></div>
+    </form>
+  </section>
+</main>

@@ -1,0 +1,31 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "notes", "data-turbo-track": "reload" %>
+<% end %>
+
+<main class="notes-app">
+  <header class="notes-header">
+    <%= link_to "Notes App", "#", class: "brand" %>
+    <%= link_to "Профиль", "#", class: "button button-outline button-small" %>
+  </header>
+  <section class="notes-content">
+    <div class="page-heading">
+      <div><p class="eyebrow">Личное пространство</p><h1>Мои заметки</h1></div>
+      <%= link_to "+ Новая заметка", "#", class: "button button-primary" %>
+    </div>
+    <div class="notes-toolbar">
+      <form class="search-form" action="#" method="get">
+        <label class="sr-only" for="notes-index-search">Поиск по заметкам</label>
+        <input id="notes-index-search" type="search" placeholder="Поиск по заметкам...">
+        <button type="submit" class="search-button">Найти</button>
+      </form>
+      <select class="filter-select" aria-label="Фильтр по категории"><option>Все категории</option></select>
+      <select class="filter-select" aria-label="Сортировка"><option>Сначала новые</option></select>
+    </div>
+    <div class="empty-state">
+      <div class="empty-icon">✦</div>
+      <h2>Пока нет заметок</h2>
+      <p>Создайте первую заметку, чтобы сохранить важную мысль.</p>
+      <%= link_to "Создать заметку", "#", class: "button button-primary" %>
+    </div>
+  </section>
+</main>
