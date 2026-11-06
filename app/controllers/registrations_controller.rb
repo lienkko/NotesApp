@@ -1,4 +1,5 @@
 class RegistrationsController < ApplicationController
+  before_action :redirect_authenticated_user, only: %i[new create]
   allow_unauthenticated_access only: %i[new create]
 
   def new
@@ -24,5 +25,9 @@ class RegistrationsController < ApplicationController
       :password,
       :password_confirmation
     )
+  end
+
+  def redirect_authenticated_user
+    redirect_to profile_path if authenticated?
   end
 end

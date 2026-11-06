@@ -1,0 +1,25 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "notes", "data-turbo-track": "reload" %>
+<% end %>
+
+<main class="notes-app">
+  <header class="notes-header">
+    <%= link_to "Notes App", "#", class: "brand" %>
+    <%= link_to "← К заметкам", "#", class: "text-button" %>
+  </header>
+  <article class="note-view">
+    <div class="note-view-header">
+      <span class="category-badge category-study">Учёба</span>
+      <div class="note-view-actions"><%= link_to "Редактировать", "#", class: "button button-outline button-small" %><button type="button" class="danger-button">Удалить</button></div>
+    </div>
+    <h1>План подготовки к экзамену</h1>
+    <div class="note-meta">Создано 12 мая 2025 · Изменено сегодня</div>
+    <div class="note-body"><p>Повторить темы по Ruby, подготовить вопросы и решить практические задания.</p><p>Разобрать примеры с формами, маршрутами и Active Record.</p></div>
+    <div class="tag-list"><span class="tag">ruby</span><span class="tag">экзамен</span><span class="tag">учёба</span></div>
+  </article>
+  <div class="delete-dialog-demo" role="dialog" aria-labelledby="delete-title">
+    <h2 id="delete-title">Удалить заметку?</h2>
+    <p>Это действие нельзя отменить. Заметка будет удалена навсегда.</p>
+    <div class="form-actions"><button type="button" class="button button-outline">Отмена</button><button type="button" class="button button-danger">Удалить</button></div>
+  </div>
+</main>

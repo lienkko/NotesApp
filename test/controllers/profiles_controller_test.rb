@@ -11,6 +11,6 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".profile-value", text: User.take.email_address
     assert_select "a", text: "Сменить пароль", href: new_password_path
     assert_select "form[action='#{session_path}']"
-    assert_select "a", text: "Вернуться домой", href: root_path
+    assert_select "a.profile-home-link", text: "Вернуться домой", href: root_path
   end
 end
