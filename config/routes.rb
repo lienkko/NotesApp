@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token
   resource :profile, only: :show
+  resource :registration, only: %i[new create]
 
   get "profile/password/edit",
     to: "profiles#edit_password",
