@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
-  resource :session
+  resource :session, only: %i[new create destroy]
   resources :passwords, param: :token
   resource :profile, only: :show
   resource :registration, only: %i[new create]
+
+  resources :notes
 
   get "profile/password/edit",
     to: "profiles#edit_password",
