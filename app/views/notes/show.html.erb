@@ -3,10 +3,7 @@
 <% end %>
 
 <main class="notes-app">
-  <header class="notes-header">
-    <%= link_to "Notes App", "#", class: "brand" %>
-    <%= link_to "← К заметкам", "#", class: "text-button" %>
-  </header>
+  <%= render "notes_header" %>
   <article class="note-view">
     <div class="note-view-header">
       <span class="category-badge category-study">Учёба</span>

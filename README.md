@@ -15,6 +15,10 @@
 * Services (job queues, cache servers, search engines, etc.)
 
 * Deployment instructions
+install ruby
+
+$ bundle install --gemfile $APP_DIRECTORY/Gemfile
+$ bin/rails server
 
 **Название проекта:** «Трекер заметок».
 

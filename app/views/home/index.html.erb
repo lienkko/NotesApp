@@ -23,7 +23,7 @@
         <h1>Мои заметки</h1>
         <p class="muted-text">Соберите мысли, задачи и идеи в одном месте.</p>
       </div>
-      <%= link_to "+ Новая заметка", "#", class: "button button-primary" %>
+      <%= link_to "+ Новая заметка", new_note_path, class: "button button-primary" %>
     </div>
 
     <div class="notes-toolbar">
@@ -51,11 +51,11 @@
           <span class="category-badge category-study">Учёба</span>
           <button type="button" class="icon-button" aria-label="Меню заметки">•••</button>
         </div>
-        <%= link_to "План подготовки к экзамену", "#", class: "note-title" %>
+        <%= link_to "План подготовки к экзамену", note_path(1), class: "note-title" %>
         <p class="note-excerpt">Повторить темы по Ruby, подготовить вопросы и решить практические задания...</p>
         <div class="note-card-footer">
           <span>Изменено сегодня</span>
-          <%= link_to "Открыть →", "#", class: "note-link" %>
+          <%= link_to "Открыть →", note_path(1), class: "note-link" %>
         </div>
       </article>
 
