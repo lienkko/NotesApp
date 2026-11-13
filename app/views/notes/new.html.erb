@@ -3,10 +3,7 @@
 <% end %>
 
 <main class="notes-app">
-  <header class="notes-header">
-    <%= link_to "Notes App", "#", class: "brand" %>
-    <%= link_to "← К заметкам", "#", class: "text-button" %>
-  </header>
+  <%= render "notes_header" %>
   <section class="editor-content">
     <p class="eyebrow">Новая запись</p>
     <h1>Создать заметку</h1>
@@ -30,7 +27,7 @@
         </div>
       </div>
       <div class="form-actions">
-        <%= link_to "Отмена", "#", class: "button button-outline" %>
+        <%= link_to "Отмена", notes_path, class: "button button-outline" %>
         <button type="submit" class="button button-primary">Сохранить заметку</button>
       </div>
     </form>
