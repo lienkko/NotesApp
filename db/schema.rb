@@ -10,14 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_06_211011) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_13_111500) do
   create_table "notes", force: :cascade do |t|
-    t.integer "user_id"
-    t.string "title"
-    t.text "body"
+    t.integer "user_id", null: false
+    t.string "title", null: false
+    t.text "body", null: false
     t.string "category"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_notes_on_user_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -37,5 +38,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_06_211011) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  add_foreign_key "notes", "users"
   add_foreign_key "sessions", "users"
 end
