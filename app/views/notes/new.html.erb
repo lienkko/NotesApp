@@ -1,5 +1,5 @@
 <% content_for :head do %>
-  <%= stylesheet_link_tag "notes", "data-turbo-track": "reload" %>
+<%= stylesheet_link_tag "notes", "data-turbo-track": "reload" %>
 <% end %>
 
 <main class="notes-app">
@@ -7,29 +7,35 @@
   <section class="editor-content">
     <p class="eyebrow">Новая запись</p>
     <h1>Создать заметку</h1>
-    <form class="note-form" action="#" method="post">
+    <%= form_with model: @note, class: "note-form" do |form| %>
+    <div class="form-field">
+      <%= form.label :title, "Заголовок" %>
+      <%= form.text_field :title, id: "new-note-title", placeholder:
+      "Например, идеи для проекта", required: true %>
+    </div>
+    <div class="form-field">
+      <%= form.label :body, "Текст заметки" %>
+      <%= form.text_field :body, id: "new-note-body", rows: 10, placeholder:
+      "Запишите всё, что не хотите забыть..." %>
+    </div>
+    <div class="form-row">
       <div class="form-field">
-        <label for="new-note-title">Заголовок</label>
-        <input id="new-note-title" type="text" name="title" placeholder="Например, идеи для проекта" required>
+        <%= form.label :category, "Категория" %>
+        <%= form.collection_select :category_id, Category.order(:name), :id,
+        :name,
+        include_blank: "Без категории" %>
       </div>
       <div class="form-field">
-        <label for="new-note-body">Текст заметки</label>
-        <textarea id="new-note-body" name="body" rows="10" placeholder="Запишите всё, что не хотите забыть..."></textarea>
+
+      <%# Здесь поле с tags%>  <
+
       </div>
-      <div class="form-row">
-        <div class="form-field">
-          <label for="new-note-category">Категория</label>
-          <select id="new-note-category" name="category"><option>Без категории</option><option>Учёба</option><option>Работа</option><option>Личное</option></select>
-        </div>
-        <div class="form-field">
-          <label for="new-note-tags">Теги</label>
-          <input id="new-note-tags" type="text" name="tags" placeholder="ruby, идеи">
-        </div>
-      </div>
-      <div class="form-actions">
-        <%= link_to "Отмена", notes_path, class: "button button-outline" %>
-        <button type="submit" class="button button-primary">Сохранить заметку</button>
-      </div>
-    </form>
+    </div>
+    <div class="form-actions">
+      <%= link_to "Отмена", notes_path, class: "button button-outline" %>
+      <button type="submit" class="button button-primary">Сохранить
+        заметку</button>
+    </div>
+    <% end %>
   </section>
 </main>

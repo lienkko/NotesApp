@@ -46,44 +46,20 @@
     </div>
 
     <div class="notes-grid">
+      <% @notes.each do |note| %>
       <article class="note-card">
         <div class="note-card-topline">
-          <span class="category-badge category-study">Учёба</span>
+          <span class="category-badge category-study"><% note.categories %></span>
           <button type="button" class="icon-button" aria-label="Меню заметки">•••</button>
         </div>
-        <%= link_to "План подготовки к экзамену", note_path(1), class: "note-title" %>
-        <p class="note-excerpt">Повторить темы по Ruby, подготовить вопросы и решить практические задания...</p>
+        <%= link_to "План подготовки к экзамену", note_path(note.id), class: "note-title" %>
+        <p class="note-excerpt">note.body</p>
         <div class="note-card-footer">
           <span>Изменено сегодня</span>
-          <%= link_to "Открыть →", note_path(1), class: "note-link" %>
+          <%= link_to "Открыть →", note_path(note.id), class: "note-link" %>
         </div>
       </article>
-
-      <article class="note-card">
-        <div class="note-card-topline">
-          <span class="category-badge category-work">Работа</span>
-          <button type="button" class="icon-button" aria-label="Меню заметки">•••</button>
-        </div>
-        <%= link_to "Идеи для нового проекта", "#", class: "note-title" %>
-        <p class="note-excerpt">Собрать простую структуру, определить основные экраны и продумать следующий шаг...</p>
-        <div class="note-card-footer">
-          <span>Изменено вчера</span>
-          <%= link_to "Открыть →", "#", class: "note-link" %>
-        </div>
-      </article>
-
-      <article class="note-card">
-        <div class="note-card-topline">
-          <span class="category-badge category-personal">Личное</span>
-          <button type="button" class="icon-button" aria-label="Меню заметки">•••</button>
-        </div>
-        <%= link_to "Список покупок", "#", class: "note-title" %>
-        <p class="note-excerpt">Кофе, молоко, хлеб, овощи и что-нибудь вкусное к чаю.</p>
-        <div class="note-card-footer">
-          <span>Изменено 3 дня назад</span>
-          <%= link_to "Открыть →", "#", class: "note-link" %>
-        </div>
-      </article>
+      <% end %>
     </div>
   </section>
 </main>

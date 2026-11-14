@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   resources :notes
 
+
   get "profile/password/edit",
     to: "profiles#edit_password",
     as: :edit_profile_password
