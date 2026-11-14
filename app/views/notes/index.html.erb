@@ -21,11 +21,32 @@
       <select class="filter-select" aria-label="Фильтр по категории"><option>Все категории</option></select>
       <select class="filter-select" aria-label="Сортировка"><option>Сначала новые</option></select>
     </div>
-    <div class="empty-state">
-      <div class="empty-icon">✦</div>
-      <h2>Пока нет заметок</h2>
-      <p>Создайте первую заметку, чтобы сохранить важную мысль.</p>
-      <%= link_to "Создать заметку", new_note_path, class: "button button-primary" %>
-    </div>
+    <% if @notes.any? %>
+      <div class="notes-grid">
+        <% @notes.each do |note| %>
+          <article class="note-card">
+            <div class="note-card-topline">
+              <span class="category-badge category-study">
+                <%= note.category&.name || "Без категории" %>
+              </span>
+              <button type="button" class="icon-button" aria-label="Меню заметки">•••</button>
+            </div>
+            <%= link_to note.title, note_path(note), class: "note-title" %>
+            <p class="note-excerpt"><%= note.body %></p>
+            <div class="note-card-footer">
+              <span>Изменено сегодня</span>
+              <%= link_to "Открыть →", note_path(note), class: "note-link" %>
+            </div>
+          </article>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="empty-state">
+        <div class="empty-icon">✦</div>
+        <h2>Пока нет заметок</h2>
+        <p>Создайте первую заметку, чтобы сохранить важную мысль.</p>
+        <%= link_to "Создать заметку", new_note_path, class: "button button-primary" %>
+      </div>
+    <% end %>
   </section>
 </main>
