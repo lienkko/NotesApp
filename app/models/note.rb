@@ -6,4 +6,17 @@ class Note < ApplicationRecord
 
   validates :title, presence: true, length: { maximum: 255 }
   validates :body, presence: true
+
+  attr_accessor :tag_names
+
+  def assign_tag_names
+    names = tag_names.to_s
+                  .split(",")
+                  .map { |name| name.strip.downcase }
+                  .reject(&:blank?)
+                  .uniq
+    self.tags = names.map do |name|
+      Tag.find_or_create_by(name: name)
+    end
+  end
 end

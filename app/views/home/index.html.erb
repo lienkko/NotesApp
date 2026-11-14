@@ -49,11 +49,11 @@
       <% @notes.each do |note| %>
       <article class="note-card">
         <div class="note-card-topline">
-          <span class="category-badge category-study"><% note.categories %></span>
+          <span class="category-badge category-study"><%= note.category_id %></span>
           <button type="button" class="icon-button" aria-label="Меню заметки">•••</button>
         </div>
         <%= link_to "План подготовки к экзамену", note_path(note.id), class: "note-title" %>
-        <p class="note-excerpt">note.body</p>
+        <p class="note-excerpt"><%= note.body %></p>
         <div class="note-card-footer">
           <span>Изменено сегодня</span>
           <%= link_to "Открыть →", note_path(note.id), class: "note-link" %>

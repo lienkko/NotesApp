@@ -26,15 +26,15 @@
         include_blank: "Без категории" %>
       </div>
       <div class="form-field">
-
-      <%# Здесь поле с tags%>  <
-
+        <%= form.label :tag_names, "Теги" %>
+        <%= form.text_field :tag_names,
+        placeholder: "Например: ruby, rails, программирование" %>
+        <small>Разделяйте теги запятыми</small>
       </div>
     </div>
     <div class="form-actions">
       <%= link_to "Отмена", notes_path, class: "button button-outline" %>
-      <button type="submit" class="button button-primary">Сохранить
-        заметку</button>
+      <%= form.submit "Сохранить заметку", class: "button button-primary" %>
     </div>
     <% end %>
   </section>
