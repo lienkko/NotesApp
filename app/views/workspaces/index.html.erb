@@ -22,11 +22,27 @@
       <div class="notes-grid">
         <% @workspaces.each do |workspace| %>
           <article class="note-card">
-            <h2 class="note-title"><%= workspace.name %></h2>
+            <div class="workspace-card-header">
+              <h2 class="note-title"><%= workspace.name %></h2>
+              <% if workspace.user_id != Current.user.id %>
+                <p class="workspace-owner">
+                  @<%= workspace.user.username %>
+                </p>
+              <% end %>
+            </div>
             <p class="note-excerpt">
               <%= pluralize(workspace.notes.count, "заметка", "заметок") %>
             </p>
-            <%= link_to "Открыть →", workspace_path(workspace), class: "note-link" %>
+            <div class="workspace-card-footer">
+              <%= link_to "Открыть →", workspace_path(workspace), class: "note-link" %>
+              <% if workspace.user_id != Current.user.id %>
+                <%= button_to "Выйти",
+                      leave_workspace_path(workspace),
+                      method: :delete,
+                      class: "workspace-leave",
+                      form: { data: { turbo_confirm: "Выйти из этой рабочей области?" } } %>
+              <% end %>
+            </div>
           </article>
         <% end %>
       </div>

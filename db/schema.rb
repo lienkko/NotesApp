@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_15_161000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_15_170000) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -65,13 +65,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_15_161000) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
-  create_table "workspaces", force: :cascade do |t|
+  create_table "workspace_memberships", force: :cascade do |t|
+    t.integer "workspace_id", null: false
     t.integer "user_id", null: false
-    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id", "name"], name: "index_workspaces_on_user_id_and_name", unique: true
-    t.index ["user_id"], name: "index_workspaces_on_user_id"
+    t.index ["user_id"], name: "index_workspace_memberships_on_user_id"
+    t.index ["workspace_id", "user_id"], name: "index_workspace_memberships_on_workspace_id_and_user_id", unique: true
+    t.index ["workspace_id"], name: "index_workspace_memberships_on_workspace_id"
   end
 
   create_table "workspaces", force: :cascade do |t|
@@ -89,5 +90,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_15_161000) do
   add_foreign_key "notes", "users"
   add_foreign_key "notes", "workspaces"
   add_foreign_key "sessions", "users"
+  add_foreign_key "workspace_memberships", "users"
+  add_foreign_key "workspace_memberships", "workspaces"
   add_foreign_key "workspaces", "users"
 end

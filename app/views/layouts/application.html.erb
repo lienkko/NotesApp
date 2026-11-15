@@ -24,6 +24,7 @@
   </head>
 
   <body>
+    <%= turbo_stream_from "user_#{Current.user.id}" if Current.user %>
     <%= yield %>
   </body>
 </html>

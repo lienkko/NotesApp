@@ -2,7 +2,7 @@ class NotesController < ApplicationController
   before_action :set_note, only: %i[ show edit update destroy ]
 
   def index
-    @workspaces = Current.user.workspaces.order(:name)
+    @workspaces = Current.user.accessible_workspaces.order(:name)
     @workspace = @workspaces.find_by(id: params[:workspace_id])
     return redirect_to workspaces_path unless @workspace
 
@@ -30,14 +30,14 @@ class NotesController < ApplicationController
   end
 
   def new
-    @workspace = Current.user.workspaces.find_by(id: params[:workspace_id])
+    @workspace = Current.user.accessible_workspaces.find_by(id: params[:workspace_id])
     return redirect_to workspaces_path unless @workspace
 
     @note = @workspace.notes.new(user: Current.user)
   end
 
   def create
-    @workspace = Current.user.workspaces.find_by(id: params[:workspace_id])
+    @workspace = Current.user.accessible_workspaces.find_by(id: params[:workspace_id])
     return redirect_to workspaces_path unless @workspace
 
     @note = @workspace.notes.new(
@@ -46,6 +46,8 @@ class NotesController < ApplicationController
 
     if save_note
       @note.assign_tag_names
+      broadcast_workspace_refresh
+      broadcast_note_refresh
       redirect_to @note
     else
       render :new, status: :unprocessable_entity
@@ -62,6 +64,8 @@ class NotesController < ApplicationController
 
     if save_note
       @note.assign_tag_names
+      broadcast_workspace_refresh
+      broadcast_note_refresh
       redirect_to @note
     else
       render :edit, status: :unprocessable_entity
@@ -70,13 +74,16 @@ class NotesController < ApplicationController
 
   def destroy
     workspace_id = @note.workspace_id
+    note_id = @note.id
     @note.destroy
+    broadcast_workspace_refresh(workspace_id)
+    broadcast_note_redirect(note_id, workspace_id)
     redirect_to notes_path(workspace_id: workspace_id), notice: "Заметка удалена"
   end
 
 private
   def set_note
-    @note = Current.user.notes.find(params[:id])
+    @note = Note.where(workspace: Current.user.accessible_workspaces).find(params[:id])
   end
   def note_params
     params.expect(note: [
@@ -106,5 +113,22 @@ private
 
     name = note_params[:new_category_name].to_s.strip
     Category.find_or_create_by!(name: name) unless name.blank?
+  end
+
+  def broadcast_workspace_refresh(workspace_id = @note.workspace_id)
+    Turbo::StreamsChannel.broadcast_refresh_to("workspace_#{workspace_id}")
+  end
+
+  def broadcast_note_refresh
+    Turbo::StreamsChannel.broadcast_refresh_to("note_#{@note.id}")
+  end
+
+  def broadcast_note_redirect(note_id, workspace_id)
+    Turbo::StreamsChannel.broadcast_action_to(
+      "note_#{note_id}",
+      action: :redirect,
+      attributes: { url: notes_path(workspace_id: workspace_id) },
+      render: false
+    )
   end
 end

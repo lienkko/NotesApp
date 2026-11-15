@@ -2,7 +2,7 @@ class WorkspacesController < ApplicationController
   before_action :set_workspace, only: :show
 
   def index
-    @workspaces = Current.user.workspaces.order(:name)
+    @workspaces = Current.user.accessible_workspaces.order(:name)
   end
 
   def new
@@ -13,6 +13,7 @@ class WorkspacesController < ApplicationController
     @workspace = Current.user.workspaces.new(workspace_params)
 
     if @workspace.save
+      @workspace.workspace_memberships.create!(user: Current.user)
       redirect_to notes_path(workspace_id: @workspace.id)
     else
       render :new, status: :unprocessable_entity
@@ -27,7 +28,7 @@ class WorkspacesController < ApplicationController
 
 private
   def set_workspace
-    @workspace = Current.user.workspaces.find_by(id: params[:id])
+    @workspace = Current.user.accessible_workspaces.find_by(id: params[:id])
   end
 
   def workspace_params
