@@ -5,6 +5,20 @@ class ProfilesController < ApplicationController
     @user = Current.user
   end
 
+  def edit
+    @user = Current.user
+  end
+
+  def update
+    @user = Current.user
+
+    if @user.update(profile_params)
+      redirect_to profile_path, notice: "Имя пользователя успешно изменено."
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   def edit_password
   end
 
@@ -26,5 +40,9 @@ class ProfilesController < ApplicationController
 
   def password_params
     params.permit(:password, :password_confirmation)
+  end
+
+  def profile_params
+    params.expect(user: [:username])
   end
 end
