@@ -7,7 +7,13 @@ class Note < ApplicationRecord
   validates :title, presence: true, length: { maximum: 255 }
   validates :body, presence: true
 
-  attr_accessor :tag_names
+  def tag_names
+    @tag_names || tags.pluck(:name).join(", ")
+  end
+
+  def tag_names=(value)
+    @tag_names = value
+  end
 
   def assign_tag_names
     names = tag_names.to_s

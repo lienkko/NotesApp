@@ -2,52 +2,11 @@
 <%= stylesheet_link_tag "notes", "data-turbo-track": "reload" %>
 <% end %>
 
+<%= render "notes_header" %>
 <main class="notes-app">
-  <%= render "notes_header" %>
   <section class="editor-content">
     <p class="eyebrow">Новая запись</p>
     <h1>Создать заметку</h1>
-    <%= form_with model: @note, class: "note-form" do |form| %>
-    <div class="form-field">
-      <%= form.label :title, "Заголовок" %>
-      <%= form.text_field :title, id: "new-note-title", placeholder:
-      "Например, идеи для проекта", required: true %>
-    </div>
-    <div class="form-field">
-      <%= form.label :body, "Текст заметки" %>
-      <%= form.text_field :body, id: "new-note-body", rows: 10, placeholder:
-      "Запишите всё, что не хотите забыть..." %>
-    </div>
-    <div class="form-row" data-controller="category-form">
-      <div class="form-field">
-        <%= form.label :category, "Категория" %>
-        <%= form.select :category_id,
-          options_for_select(
-            [["Без категории", ""], ["Своя категория", "new"]] +
-            Category.order(:name).map { |category| [category.name, category.id] },
-            @note.category_id
-          ),
-          {},
-          data: {
-            category_form_target: "select",
-            action: "change->category-form#toggleCustomField"
-          } %>
-        <div class="form-field" data-category-form-target="customField" hidden>
-          <%= form.label :new_category_name, "Название новой категории" %>
-          <%= form.text_field :new_category_name,
-            placeholder: "Например: Хобби" %>
-        </div>
-      </div>
-      <div class="form-field">
-        <%= form.label :tag_names, "Теги (разделяйте запятыми)" %>
-        <%= form.text_field :tag_names,
-        placeholder: "Например: ruby, rails, программирование" %>
-      </div>
-    </div>
-    <div class="form-actions">
-      <%= link_to "Отмена", notes_path, class: "button button-outline" %>
-      <%= form.submit "Сохранить заметку", class: "button button-primary" %>
-    </div>
-    <% end %>
+    <%= render "note_form" %>
   </section>
 </main>

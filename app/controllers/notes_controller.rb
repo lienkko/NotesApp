@@ -1,5 +1,5 @@
 class NotesController < ApplicationController
-  before_action :set_note, only: %i[ show destroy ]
+  before_action :set_note, only: %i[ show edit update destroy ]
 
   def index
     @notes = Note.includes(:category)
@@ -39,6 +39,22 @@ class NotesController < ApplicationController
       redirect_to @note
     else
       render :new, status: :unprocessable_entity
+    end
+  end
+
+  def edit
+  end
+
+  def update
+    @note.assign_attributes(
+      note_params.except(:tag_names, :new_category_name)
+    )
+
+    if save_note
+      @note.assign_tag_names
+      redirect_to @note
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 

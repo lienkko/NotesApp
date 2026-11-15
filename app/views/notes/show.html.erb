@@ -8,14 +8,17 @@
     <div class="note-view-header">
       <span class="category-badge category-study"><%= @note.category&.name || "Без категории" %></span>
       <div class="note-view-actions">
-        <%= link_to "Редактировать", "#", class: "button button-outline button-small" %>
+        <%= link_to "Редактировать", edit_note_path(@note), class: "button button-outline button-small" %>
         <button type="button" class="danger-button" data-action="delete-dialog#open">
           Удалить
         </button>
       </div>
     </div>
     <h1><%= @note.title %></h1>
-    <div class="note-meta">Создано 12 мая 2025 · Изменено сегодня</div>
+    <div class="note-meta">
+      Создано: <%= @note.created_at.strftime("%d.%m.%Y %H:%M") %>
+      · Изменено: <%= @note.updated_at.strftime("%d.%m.%Y %H:%M") %>
+    </div>
     <div class="note-body"><%= @note.body %></div>
     <div class="tag-list">
       <% @note.tags.each do |tag| %>
