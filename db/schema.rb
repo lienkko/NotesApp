@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_15_153000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_15_161000) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -60,7 +60,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_15_153000) do
     t.string "password_digest", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "username", null: false
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
+  end
+
+  create_table "workspaces", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "name"], name: "index_workspaces_on_user_id_and_name", unique: true
+    t.index ["user_id"], name: "index_workspaces_on_user_id"
   end
 
   create_table "workspaces", force: :cascade do |t|

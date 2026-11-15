@@ -24,11 +24,19 @@
                   url: registration_path,
                   class: "auth-form" do |form| %>
       <div class="form-field">
-        <%= form.label :email_address, "Электронная почта" %>
-        <%= form.email_field :email_address,
+        <%= form.label :username, "Имя пользователя" %>
+        <%= form.text_field :username,
               required: true,
               autofocus: true,
               autocomplete: "username",
+              placeholder: "например, alex_ivanov" %>
+      </div>
+
+      <div class="form-field">
+        <%= form.label :email_address, "Электронная почта" %>
+        <%= form.email_field :email_address,
+              required: true,
+              autocomplete: "email",
               placeholder: "you@example.com" %>
       </div>
 

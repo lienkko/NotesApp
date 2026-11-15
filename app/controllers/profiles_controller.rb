@@ -1,30 +1,49 @@
 class ProfilesController < ApplicationController
   before_action :require_authentication
+  before_action :set_profile, only: %i[ show edit update edit_password update_password ]
 
   def show
-    @user = Current.user
+  end
+
+  def edit
+  end
+
+  def update
+    if @user.update(profile_params)
+      redirect_to profile_path, notice: "Имя пользователя успешно изменено."
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   def edit_password
   end
 
   def update_password
-    unless Current.user.authenticate(params[:current_password])
-      redirect_to edit_profile_password_path,
-                  alert: "Неверный текущий пароль."
+    unless @user.authenticate(params[:current_password])
+      @user.errors.add(:current_password, "Неверный текущий пароль.")
+      render :edit_password, status: :unprocessable_entity
       return
     end
 
-    if Current.user.update(password_params)
+    if @user.update(password_params)
       redirect_to profile_path, notice: "Пароль успешно изменён."
     else
-      redirect_to edit_profile_password_path, alert: "Пароли не совпадают."
+      render :edit_password, status: :unprocessable_entity
     end
   end
 
   private
 
+  def set_profile
+    @user = Current.user
+  end
+
   def password_params
     params.permit(:password, :password_confirmation)
+  end
+
+  def profile_params
+    params.expect(user: [ :username ])
   end
 end
