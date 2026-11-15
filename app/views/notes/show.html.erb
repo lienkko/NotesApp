@@ -31,7 +31,7 @@
       <button type="button" class="button button-outline" data-action="delete-dialog#close">
         Отмена
       </button>
-      <button type="button" class="button button-danger">Удалить</button>
+      <%= button_to "Удалить", @note, method: :delete, class: "button button-danger"%>
     </div>
   </div>
 </main>

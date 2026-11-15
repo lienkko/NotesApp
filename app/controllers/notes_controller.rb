@@ -1,10 +1,11 @@
 class NotesController < ApplicationController
+  before_action :set_note, only: %i[ show destroy ]
+
   def index
     @notes = Note.all
   end
 
   def show
-    @note = Note.find(params[:id])
   end
 
   def new
@@ -24,8 +25,15 @@ class NotesController < ApplicationController
     end
   end
 
+  def destroy
+    @note.destroy
+    redirect_to notes_path, notice: "Заметка удалена"
+  end
 
 private
+  def set_note
+    @note = Note.find(params[:id])
+  end
   def note_params
     params.expect(note: [
       :title,
