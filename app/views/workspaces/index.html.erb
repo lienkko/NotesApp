@@ -2,12 +2,14 @@
   <%= stylesheet_link_tag "notes", "data-turbo-track": "reload" %>
 <% end %>
 
-<main class="notes-app">
   <header class="notes-header">
     <%= link_to "Notes App", root_path, class: "brand" %>
     <%= link_to "Профиль", profile_path, class: "button button-outline button-small" %>
   </header>
-
+<main class="notes-app">
+<% @workspaces.each do |workspace| %>
+  <%= turbo_stream_from "workspace_#{workspace.id}" %>
+<% end %>
   <section class="notes-content">
     <div class="page-heading">
       <div>
