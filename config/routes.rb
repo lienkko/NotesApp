@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resource :profile, only: :show
   resource :registration, only: %i[new create]
 
+  resources :workspaces, only: %i[index new create show]
   resources :notes
 
 

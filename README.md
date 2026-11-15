@@ -18,6 +18,7 @@
 install ruby
 
 $ bundle install --gemfile $APP_DIRECTORY/Gemfile
+$ bin/rails db:migrate
 $ bin/rails server
 
 **Название проекта:** «Трекер заметок».

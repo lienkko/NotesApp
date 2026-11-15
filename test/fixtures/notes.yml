@@ -2,12 +2,14 @@
 
 one:
   user: one
+  workspace: one
   title: MyString
   body: MyText
-  category: MyString
+  category: one
 
 two:
   user: one
+  workspace: one
   title: MyString
   body: MyText
-  category: MyString
+  category: two
