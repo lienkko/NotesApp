@@ -22,7 +22,14 @@
       <div class="notes-grid">
         <% @workspaces.each do |workspace| %>
           <article class="note-card">
-            <h2 class="note-title"><%= workspace.name %></h2>
+            <div class="workspace-card-header">
+              <h2 class="note-title"><%= workspace.name %></h2>
+              <% if workspace.user_id != Current.user.id %>
+                <p class="workspace-owner">
+                  @<%= workspace.user.username %>
+                </p>
+              <% end %>
+            </div>
             <p class="note-excerpt">
               <%= pluralize(workspace.notes.count, "заметка", "заметок") %>
             </p>
