@@ -5,6 +5,12 @@ Rails.application.routes.draw do
   resource :registration, only: %i[new create]
 
   resources :workspaces, only: %i[index new create show]
+  post "workspaces/:workspace_id/members",
+    to: "workspace_memberships#create",
+    as: :workspace_members
+  delete "workspaces/:workspace_id/members/:user_id",
+    to: "workspace_memberships#destroy",
+    as: :workspace_member
   resources :notes
 
 

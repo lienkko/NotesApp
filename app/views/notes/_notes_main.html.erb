@@ -1,6 +1,11 @@
 <main class="notes-app">
   <section class="notes-content">
     <% if authenticated? %>
+    <% if flash[:notice] || flash[:alert] %>
+      <div class="notes-message <%= flash[:alert] ? "notes-message-error" : "notes-message-success" %>">
+        <%= flash[:alert] || flash[:notice] %>
+      </div>
+    <% end %>
     <div class="page-heading">
         <div>
             <p class="eyebrow">Рабочая область</p>
@@ -41,6 +46,38 @@
           onchange: "this.form.submit()" %>
       <% end %>
     </div>
+    <section class="workspace-members">
+      <div>
+        <p class="eyebrow">Участники</p>
+        <p class="muted-text">
+          Владелец: @<%= @workspace.user.username %>
+        </p>
+      </div>
+
+      <div class="workspace-member-list">
+        <% @workspace.members.each do |member| %>
+          <span class="tag">
+            @<%= member.username %>
+            <% if @workspace.user_id == Current.user.id && member.id != @workspace.user_id %>
+              <%= button_to "×",
+                    workspace_member_path(@workspace, member),
+                    method: :delete,
+                    class: "member-remove",
+                    aria: { label: "Удалить @#{member.username}" } %>
+            <% end %>
+          </span>
+        <% end %>
+      </div>
+
+      <% if @workspace.user_id == Current.user.id %>
+        <%= form_tag workspace_members_path(@workspace), method: :post, class: "member-form" do %>
+          <%= text_field_tag :username, nil,
+                placeholder: "Введите username пользователя",
+                required: true %>
+          <%= submit_tag "Добавить пользователя", class: "button button-outline" %>
+        <% end %>
+      <% end %>
+    </section>
     <% if @notes.any? %>
       <div class="notes-grid">
         <% @notes.each do |note| %>

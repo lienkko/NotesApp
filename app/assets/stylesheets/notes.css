@@ -53,6 +53,57 @@
 
 .muted-text { color: #667085; }
 .notes-toolbar { display: flex; gap: 12px; margin-bottom: 28px; }
+.notes-message {
+  margin-bottom: 20px;
+  padding: 11px 13px;
+  border-radius: 8px;
+}
+.notes-message-error {
+  color: #a33a4b;
+  background: #fff0f2;
+}
+.notes-message-success {
+  color: #28704b;
+  background: #edf9f2;
+}
+.workspace-members {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 28px;
+  padding: 18px;
+  border: 1px solid #e8eaf5;
+  border-radius: 12px;
+  background: #fff;
+}
+.workspace-member-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.workspace-member-list .tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.member-remove {
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+}
+.member-form {
+  display: flex;
+  gap: 10px;
+}
+.member-form input {
+  min-width: 240px;
+  border: 1px solid #dfe3ef;
+  border-radius: 9px;
+  padding: 10px 12px;
+  font: inherit;
+}
 .search-form { display: flex; flex: 1; }
 .search-form input, .filter-select, .note-form input, .note-form textarea, .note-form select {
   border: 1px solid #dfe3ef;

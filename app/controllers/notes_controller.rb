@@ -2,7 +2,7 @@ class NotesController < ApplicationController
   before_action :set_note, only: %i[ show edit update destroy ]
 
   def index
-    @workspaces = Current.user.workspaces.order(:name)
+    @workspaces = Current.user.accessible_workspaces.order(:name)
     @workspace = @workspaces.find_by(id: params[:workspace_id])
     return redirect_to workspaces_path unless @workspace
 
@@ -30,14 +30,14 @@ class NotesController < ApplicationController
   end
 
   def new
-    @workspace = Current.user.workspaces.find_by(id: params[:workspace_id])
+    @workspace = Current.user.accessible_workspaces.find_by(id: params[:workspace_id])
     return redirect_to workspaces_path unless @workspace
 
     @note = @workspace.notes.new(user: Current.user)
   end
 
   def create
-    @workspace = Current.user.workspaces.find_by(id: params[:workspace_id])
+    @workspace = Current.user.accessible_workspaces.find_by(id: params[:workspace_id])
     return redirect_to workspaces_path unless @workspace
 
     @note = @workspace.notes.new(
@@ -76,7 +76,7 @@ class NotesController < ApplicationController
 
 private
   def set_note
-    @note = Current.user.notes.find(params[:id])
+    @note = Note.where(workspace: Current.user.accessible_workspaces).find(params[:id])
   end
   def note_params
     params.expect(note: [
