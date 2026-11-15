@@ -2,7 +2,24 @@ class NotesController < ApplicationController
   before_action :set_note, only: %i[ show destroy ]
 
   def index
-    @notes = Note.all
+    @notes = Note.includes(:category)
+
+    @notes = if params[:category_id] == "none"
+      @notes.where(category_id: nil)
+    elsif params[:category_id].present?
+      @notes.where(category_id: params[:category_id])
+    else
+      @notes
+    end
+
+    @notes = case params[:sort]
+    when "oldest"
+      @notes.order(created_at: :asc)
+    when "title"
+      @notes.order(title: :asc)
+    else
+      @notes.order(created_at: :desc)
+    end
   end
 
   def show
