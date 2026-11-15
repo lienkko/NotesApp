@@ -6,7 +6,7 @@
 </div>
 <div class="form-field">
     <%= form.label :body, "Текст заметки" %>
-    <%= form.text_field :body, id: "new-note-body", rows: 10, placeholder:
+    <%= form.text_area :body, id: "new-note-body", rows: 10, placeholder:
     "Запишите всё, что не хотите забыть..." %>
 </div>
 <% if @note.persisted? %>
