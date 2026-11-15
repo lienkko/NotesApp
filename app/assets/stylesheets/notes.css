@@ -66,29 +66,71 @@
   color: #28704b;
   background: #edf9f2;
 }
-.workspace-members {
-  display: grid;
-  gap: 14px;
-  margin-bottom: 28px;
-  padding: 18px;
+.workspace-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.workspace-members-menu {
+  position: relative;
+}
+.workspace-members-menu summary {
+  list-style: none;
+  cursor: pointer;
+}
+.workspace-members-menu summary::-webkit-details-marker {
+  display: none;
+}
+.workspace-members-dropdown {
+  position: absolute;
+  z-index: 2;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 290px;
+  padding: 16px;
   border: 1px solid #e8eaf5;
   border-radius: 12px;
   background: #fff;
+  box-shadow: 0 14px 34px rgba(48, 57, 126, 0.14);
+}
+.workspace-members-title {
+  margin: 0 0 12px;
+  color: #172033;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+.workspace-member-add-label,
+.workspace-member-hint {
+  margin: 0 0 8px;
+  color: #667085;
+  font-size: 0.8rem;
+}
+.workspace-member-add-label {
+  font-weight: 650;
 }
 .workspace-member-list {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: 8px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
 }
-.workspace-member-list .tag {
-  display: inline-flex;
+.workspace-member-list li {
+  display: flex;
   align-items: center;
-  gap: 5px;
+  justify-content: space-between;
+  gap: 8px;
+  color: #344054;
+  font-size: 0.9rem;
+}
+.workspace-member-list small {
+  color: #667085;
+  font-size: 0.75rem;
 }
 .member-remove {
   padding: 0;
   border: 0;
-  color: inherit;
+  color: #b54758;
   background: transparent;
   cursor: pointer;
   font: inherit;
@@ -98,7 +140,8 @@
   gap: 10px;
 }
 .member-form input {
-  min-width: 240px;
+  min-width: 0;
+  width: 100%;
   border: 1px solid #dfe3ef;
   border-radius: 9px;
   padding: 10px 12px;

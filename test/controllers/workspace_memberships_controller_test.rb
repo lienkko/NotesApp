@@ -10,7 +10,7 @@ class WorkspaceMembershipsControllerTest < ActionDispatch::IntegrationTest
 
   test "owner adds a user by username" do
     assert_difference "WorkspaceMembership.count", 1 do
-      post workspace_members_path(@workspace), params: { username: @member.username }
+      post workspace_members_path(@workspace), params: { username: "@#{@member.username}" }
     end
 
     assert_redirected_to notes_path(workspace_id: @workspace.id)

@@ -12,9 +12,51 @@
             <h1><%= @workspace&.name || "Мои заметки" %></h1>
             <p class="muted-text">Соберите мысли, задачи и идеи в одном месте.</p>
         </div>
-        <%= link_to "+ Новая заметка",
-            @workspace ? new_note_path(workspace_id: @workspace.id) : new_session_path,
-            class: "button button-primary" %>
+        <div class="workspace-actions">
+          <%= link_to "+ Новая заметка",
+              @workspace ? new_note_path(workspace_id: @workspace.id) : new_session_path,
+              class: "button button-primary" %>
+          <% if @workspace %>
+            <details class="workspace-members-menu">
+              <summary class="button button-outline">Участники</summary>
+              <div class="workspace-members-dropdown">
+                <p class="workspace-members-title">Участники области</p>
+                <ul class="workspace-member-list">
+                  <% @workspace.members.each do |member| %>
+                    <li>
+                      <span>
+                        @<%= member.username %>
+                        <% if member.id == @workspace.user_id %>
+                          <small>(владелец)</small>
+                        <% end %>
+                      </span>
+                      <% if @workspace.user_id == Current.user.id && member.id != @workspace.user_id %>
+                        <%= button_to "Удалить",
+                              workspace_member_path(@workspace, member),
+                              method: :delete,
+                              class: "member-remove" %>
+                      <% end %>
+                    </li>
+                  <% end %>
+                </ul>
+
+                <% if @workspace.user_id == Current.user.id %>
+                  <p class="workspace-member-add-label">Добавить пользователя</p>
+                  <%= form_tag workspace_members_path(@workspace), method: :post, class: "member-form" do %>
+                    <%= text_field_tag :username, nil,
+                          placeholder: "@username",
+                          required: true %>
+                    <%= submit_tag "Добавить", class: "button button-primary button-small" %>
+                  <% end %>
+                <% else %>
+                  <p class="workspace-member-hint">
+                    Добавлять и удалять пользователей может только владелец.
+                  </p>
+                <% end %>
+              </div>
+            </details>
+          <% end %>
+        </div>
     </div>
     <div class="notes-toolbar">
       <form class="search-form" action="#" method="get">
@@ -46,38 +88,6 @@
           onchange: "this.form.submit()" %>
       <% end %>
     </div>
-    <section class="workspace-members">
-      <div>
-        <p class="eyebrow">Участники</p>
-        <p class="muted-text">
-          Владелец: @<%= @workspace.user.username %>
-        </p>
-      </div>
-
-      <div class="workspace-member-list">
-        <% @workspace.members.each do |member| %>
-          <span class="tag">
-            @<%= member.username %>
-            <% if @workspace.user_id == Current.user.id && member.id != @workspace.user_id %>
-              <%= button_to "×",
-                    workspace_member_path(@workspace, member),
-                    method: :delete,
-                    class: "member-remove",
-                    aria: { label: "Удалить @#{member.username}" } %>
-            <% end %>
-          </span>
-        <% end %>
-      </div>
-
-      <% if @workspace.user_id == Current.user.id %>
-        <%= form_tag workspace_members_path(@workspace), method: :post, class: "member-form" do %>
-          <%= text_field_tag :username, nil,
-                placeholder: "Введите username пользователя",
-                required: true %>
-          <%= submit_tag "Добавить пользователя", class: "button button-outline" %>
-        <% end %>
-      <% end %>
-    </section>
     <% if @notes.any? %>
       <div class="notes-grid">
         <% @notes.each do |note| %>

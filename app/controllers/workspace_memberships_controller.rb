@@ -2,7 +2,8 @@ class WorkspaceMembershipsController < ApplicationController
   before_action :set_workspace
 
   def create
-    user = User.find_by(username: params[:username].to_s.strip.downcase)
+    username = params[:username].to_s.strip.delete_prefix("@").downcase
+    user = User.find_by(username: username)
 
     if user.nil?
       redirect_to workspace_notes_path, alert: "Пользователь не найден."
