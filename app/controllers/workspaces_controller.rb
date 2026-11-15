@@ -20,12 +20,14 @@ class WorkspacesController < ApplicationController
   end
 
   def show
+    return redirect_to workspaces_path unless @workspace
+
     redirect_to notes_path(workspace_id: @workspace.id)
   end
 
 private
   def set_workspace
-    @workspace = Current.user.workspaces.find(params[:id])
+    @workspace = Current.user.workspaces.find_by(id: params[:id])
   end
 
   def workspace_params

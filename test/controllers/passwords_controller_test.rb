@@ -36,7 +36,7 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_password_path
 
     follow_redirect!
-    assert_notice "reset link is invalid"
+    assert_alert "reset link is invalid"
   end
 
   test "update" do
@@ -57,11 +57,15 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
     end
 
     follow_redirect!
-    assert_notice "Passwords did not match"
+    assert_alert "Passwords did not match"
   end
 
   private
     def assert_notice(text)
-      assert_select "div", /#{text}/
+      assert_select ".auth-message-success", /#{Regexp.escape(text)}/
+    end
+
+    def assert_alert(text)
+      assert_select "body", /#{Regexp.escape(text)}/
     end
 end
