@@ -2,7 +2,11 @@ class NotesController < ApplicationController
   before_action :set_note, only: %i[ show edit update destroy ]
 
   def index
-    @notes = Note.includes(:category)
+    @workspaces = Current.user.workspaces.order(:name)
+    @workspace = @workspaces.find_by(id: params[:workspace_id])
+    return redirect_to workspaces_path unless @workspace
+
+    @notes = @workspace.notes.includes(:category)
 
     @notes = if params[:category_id] == "none"
       @notes.where(category_id: nil)
@@ -26,11 +30,17 @@ class NotesController < ApplicationController
   end
 
   def new
-    @note = Note.new
+    @workspace = Current.user.workspaces.find_by(id: params[:workspace_id])
+    return redirect_to workspaces_path unless @workspace
+
+    @note = @workspace.notes.new(user: Current.user)
   end
 
   def create
-    @note = Note.new(
+    @workspace = Current.user.workspaces.find_by(id: params[:workspace_id])
+    return redirect_to workspaces_path unless @workspace
+
+    @note = @workspace.notes.new(
       note_params.except(:tag_names, :new_category_name).merge(user: Current.user)
     )
 
@@ -59,13 +69,14 @@ class NotesController < ApplicationController
   end
 
   def destroy
+    workspace_id = @note.workspace_id
     @note.destroy
-    redirect_to notes_path, notice: "Заметка удалена"
+    redirect_to notes_path(workspace_id: workspace_id), notice: "Заметка удалена"
   end
 
 private
   def set_note
-    @note = Note.find(params[:id])
+    @note = Current.user.notes.find(params[:id])
   end
   def note_params
     params.expect(note: [

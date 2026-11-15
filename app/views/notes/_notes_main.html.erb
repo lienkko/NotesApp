@@ -2,11 +2,13 @@
   <section class="notes-content">
     <div class="page-heading">
         <div>
-            <p class="eyebrow">Личное пространство</p>
-            <h1>Мои заметки</h1>
+            <p class="eyebrow">Рабочая область</p>
+            <h1><%= @workspace&.name || "Мои заметки" %></h1>
             <p class="muted-text">Соберите мысли, задачи и идеи в одном месте.</p>
         </div>
-        <%= link_to "+ Новая заметка", new_note_path, class: "button button-primary" %>
+        <%= link_to "+ Новая заметка",
+            @workspace ? new_note_path(workspace_id: @workspace.id) : new_session_path,
+            class: "button button-primary" %>
     </div>
     <div class="notes-toolbar">
       <form class="search-form" action="#" method="get">
@@ -14,7 +16,7 @@
         <input id="notes-index-search" type="search" placeholder="Поиск по заметкам...">
         <button type="submit" class="search-button">Найти</button>
       </form>
-      <%= form_tag notes_path, method: :get do %>
+      <%= form_tag notes_path(workspace_id: @workspace&.id), method: :get do %>
         <%= select_tag :category_id,
           options_for_select(
             [["Все категории", ""], ["Без категории", "none"]] +
@@ -61,7 +63,9 @@
         <div class="empty-icon">✦</div>
         <h2>Пока нет заметок</h2>
         <p>Создайте первую заметку, чтобы сохранить важную мысль.</p>
-        <%= link_to "Создать заметку", new_note_path, class: "button button-primary" %>
+        <%= link_to "Создать заметку",
+            @workspace ? new_note_path(workspace_id: @workspace.id) : new_session_path,
+            class: "button button-primary" %>
       </div>
     <% end %>
   </section>

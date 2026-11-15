@@ -1,0 +1,42 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "notes", "data-turbo-track": "reload" %>
+<% end %>
+
+<main class="notes-app">
+  <header class="notes-header">
+    <%= link_to "Notes App", root_path, class: "brand" %>
+    <%= link_to "Профиль", profile_path, class: "button button-outline button-small" %>
+  </header>
+
+  <section class="notes-content">
+    <div class="page-heading">
+      <div>
+        <p class="eyebrow">Личное пространство</p>
+        <h1>Рабочие области</h1>
+        <p class="muted-text">Разделите заметки по проектам, учёбе или другим темам.</p>
+      </div>
+      <%= link_to "+ Новая область", new_workspace_path, class: "button button-primary" %>
+    </div>
+
+    <% if @workspaces.any? %>
+      <div class="notes-grid">
+        <% @workspaces.each do |workspace| %>
+          <article class="note-card">
+            <h2 class="note-title"><%= workspace.name %></h2>
+            <p class="note-excerpt">
+              <%= pluralize(workspace.notes.count, "заметка", "заметок") %>
+            </p>
+            <%= link_to "Открыть →", workspace_path(workspace), class: "note-link" %>
+          </article>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="empty-state">
+        <div class="empty-icon">✦</div>
+        <h2>Пока нет рабочих областей</h2>
+        <p>Создайте первую область, чтобы начать добавлять заметки.</p>
+        <%= link_to "Создать рабочую область", new_workspace_path, class: "button button-primary" %>
+      </div>
+    <% end %>
+  </section>
+</main>
