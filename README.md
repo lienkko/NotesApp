@@ -2,20 +2,7 @@
 
 * Ruby version - 3.4.12
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-### Deployment instructions
-
+## System dependencies
 * install ruby https://www.ruby-lang.org/en/documentation/installation/
 * install ruby on rails
 ```
@@ -25,10 +12,19 @@ $ gem install rails
 ```bash
 $ bundle install --gemfile $APP_DIRECTORY/Gemfile
 ```
+
+[//]: # (Configuration)
+
+
+## Database initialization
 * migrate database
 ```bash
 $ bin/rails db:migrate
 ```
+[//]: # (How to run the test suite)
+[//]: # (Services job queues, cache servers, search engines, etc.)
+
+## Deployment instructions
 * start server
 ```
 $ bin/rails server
