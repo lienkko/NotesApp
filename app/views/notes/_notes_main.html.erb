@@ -1,6 +1,7 @@
 <main class="notes-app">
   <section class="notes-content">
     <% if authenticated? %>
+    <%= turbo_stream_from "workspace_#{@workspace.id}" if @workspace %>
     <% if flash[:notice] || flash[:alert] %>
       <div class="notes-message <%= flash[:alert] ? "notes-message-error" : "notes-message-success" %>">
         <%= flash[:alert] || flash[:notice] %>

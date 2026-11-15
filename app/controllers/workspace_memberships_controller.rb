@@ -19,6 +19,8 @@ class WorkspaceMembershipsController < ApplicationController
     if membership.persisted?
       redirect_to workspace_notes_path, alert: "Пользователь уже добавлен."
     elsif membership.save
+      broadcast_workspace_refresh
+      broadcast_user_refresh(user)
       redirect_to workspace_notes_path, notice: "Пользователь добавлен в рабочую область."
     else
       redirect_to workspace_notes_path, alert: "Пользователь уже добавлен."
@@ -27,7 +29,11 @@ class WorkspaceMembershipsController < ApplicationController
 
   def destroy
     membership = @workspace.workspace_memberships.find_by(user_id: params[:user_id])
-    membership&.destroy
+    removed_user_id = membership&.user_id
+    if membership&.destroy
+      broadcast_workspace_refresh
+      broadcast_user_redirect(removed_user_id)
+    end
     redirect_to workspace_notes_path, notice: "Пользователь удалён из рабочей области."
   end
 
@@ -39,5 +45,22 @@ private
 
   def workspace_notes_path
     notes_path(workspace_id: @workspace.id)
+  end
+
+  def broadcast_workspace_refresh
+    Turbo::StreamsChannel.broadcast_refresh_to("workspace_#{@workspace.id}")
+  end
+
+  def broadcast_user_refresh(user)
+    Turbo::StreamsChannel.broadcast_refresh_to("user_#{user.id}")
+  end
+
+  def broadcast_user_redirect(user_id)
+    Turbo::StreamsChannel.broadcast_action_to(
+      "user_#{user_id}",
+      action: :redirect,
+      attributes: { url: workspaces_path },
+      render: false
+    )
   end
 end

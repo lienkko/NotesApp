@@ -3,6 +3,7 @@
 <% end %>
 
 <main class="notes-app" data-controller="delete-dialog">
+  <%= turbo_stream_from "note_#{@note.id}" %>
   <%= render "notes_header" %>
   <article class="note-view">
     <div class="note-view-header">
