@@ -7,6 +7,14 @@
     <p class="eyebrow">Новая область</p>
     <h1>Создать рабочую область</h1>
 
+    <% if @workspace.errors.any? %>
+      <div class="auth-message auth-message-error">
+        <% @workspace.errors.full_messages.each do |message| %>
+          <p><%= message %></p>
+        <% end %>
+      </div>
+    <% end %>
+
     <%= form_with model: @workspace, class: "note-form" do |form| %>
       <div class="form-field">
         <%= form.label :name, "Название" %>
