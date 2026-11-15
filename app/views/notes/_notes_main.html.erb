@@ -1,5 +1,6 @@
 <main class="notes-app">
   <section class="notes-content">
+    <% if authenticated? %>
     <div class="page-heading">
         <div>
             <p class="eyebrow">Рабочая область</p>
@@ -66,6 +67,17 @@
         <%= link_to "Создать заметку",
             @workspace ? new_note_path(workspace_id: @workspace.id) : new_session_path,
             class: "button button-primary" %>
+      </div>
+    <% end %>
+    <% else %>
+      <div class="empty-state">
+        <div class="empty-icon">✦</div>
+        <h1>Войдите, чтобы начать</h1>
+        <p>Создавайте рабочие области и сохраняйте в них свои заметки.</p>
+        <div class="form-actions">
+          <%= link_to "Войти", new_session_path, class: "button button-primary" %>
+          <%= link_to "Зарегистрироваться", new_registration_path, class: "button button-outline" %>
+        </div>
       </div>
     <% end %>
   </section>
