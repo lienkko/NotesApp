@@ -28,6 +28,30 @@ class WorkspaceMembershipsControllerTest < ActionDispatch::IntegrationTest
     assert_not WorkspaceMembership.exists?(membership.id)
   end
 
+  test "member can leave a workspace" do
+    membership = @workspace.workspace_memberships.create!(user: @member)
+    sign_out
+    sign_in_as(@member)
+
+    assert_difference "WorkspaceMembership.count", -1 do
+      delete leave_workspace_path(@workspace)
+    end
+
+    assert_redirected_to workspaces_path
+    assert_not WorkspaceMembership.exists?(membership.id)
+  end
+
+  test "owner cannot leave their workspace" do
+    membership = @workspace.workspace_memberships.find_by!(user: @owner)
+
+    assert_no_difference "WorkspaceMembership.count" do
+      delete leave_workspace_path(@workspace)
+    end
+
+    assert_redirected_to notes_path(workspace_id: @workspace.id)
+    assert WorkspaceMembership.exists?(membership.id)
+  end
+
   test "unknown username is rejected" do
     assert_no_difference "WorkspaceMembership.count" do
       post workspace_members_path(@workspace), params: { username: "missing_user" }

@@ -11,6 +11,9 @@ Rails.application.routes.draw do
   delete "workspaces/:workspace_id/members/:user_id",
     to: "workspace_memberships#destroy",
     as: :workspace_member
+  delete "workspaces/:workspace_id/leave",
+    to: "workspace_memberships#leave",
+    as: :leave_workspace
   resources :notes
 
 

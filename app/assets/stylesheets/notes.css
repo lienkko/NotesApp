@@ -180,6 +180,26 @@
 .icon-button { border: 0; color: #98a2b3; background: transparent; font-weight: 700; }
 .note-title { display: block; margin: 24px 0 10px; color: #172033; font-size: 1.15rem; font-weight: 700; text-decoration: none; }
 .note-excerpt { min-height: 50px; color: #667085; font-size: .92rem; line-height: 1.55; }
+.workspace-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 24px;
+}
+.workspace-card-footer form {
+  margin: 0;
+}
+.workspace-leave {
+  padding: 0;
+  border: 0;
+  color: #b54758;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  font-size: .92rem;
+  font-weight: 650;
+}
 .workspace-owner {
   flex-shrink: 0;
   max-width: 45%;
