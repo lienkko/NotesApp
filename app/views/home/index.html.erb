@@ -1,65 +1,21 @@
 <% content_for :head do %>
-  <%= stylesheet_link_tag "notes", "data-turbo-track": "reload" %>
+<%= stylesheet_link_tag "notes", "data-turbo-track": "reload" %>
 <% end %>
 
-<main class="notes-app">
-  <header class="notes-header">
-    <%= link_to "Notes App", root_path, class: "brand" %>
-    <div class="notes-header-actions">
-      <% if authenticated? %>
-        <%= link_to "Профиль", profile_path, class: "button button-primary button-small" %>
-        <%= button_to "Выйти", session_path, method: :delete, class: "button button-outline button-small" %>
-      <% else %>
-        <%= link_to "Войти", new_session_path, class: "button button-primary button-small" %>
-        <%= link_to "Регистрация", new_registration_path, class: "button button-outline button-small" %>
-      <% end %>
-    </div>
-  </header>
-
-  <section class="notes-content">
-    <div class="page-heading">
-      <div>
-        <p class="eyebrow">Личное пространство</p>
-        <h1>Мои заметки</h1>
-        <p class="muted-text">Соберите мысли, задачи и идеи в одном месте.</p>
-      </div>
-      <%= link_to "+ Новая заметка", new_note_path, class: "button button-primary" %>
-    </div>
-
-    <div class="notes-toolbar">
-      <form class="search-form" action="#" method="get">
-        <label class="sr-only" for="note-search">Поиск по заметкам</label>
-        <input id="note-search" type="search" name="query" placeholder="Поиск по заметкам...">
-        <button type="submit" class="search-button">Найти</button>
-      </form>
-      <select class="filter-select" name="category" aria-label="Фильтр по категории">
-        <option>Все категории</option>
-        <option>Учёба</option>
-        <option>Работа</option>
-        <option>Личное</option>
-      </select>
-      <select class="filter-select" name="sort" aria-label="Сортировка заметок">
-        <option>Сначала новые</option>
-        <option>Сначала старые</option>
-        <option>По названию</option>
-      </select>
-    </div>
-
-    <div class="notes-grid">
-      <% @notes.each do |note| %>
-      <article class="note-card">
-        <div class="note-card-topline">
-          <span class="category-badge category-study"><% note.categories %></span>
-          <button type="button" class="icon-button" aria-label="Меню заметки">•••</button>
-        </div>
-        <%= link_to "План подготовки к экзамену", note_path(note.id), class: "note-title" %>
-        <p class="note-excerpt">note.body</p>
-        <div class="note-card-footer">
-          <span>Изменено сегодня</span>
-          <%= link_to "Открыть →", note_path(note.id), class: "note-link" %>
-        </div>
-      </article>
-      <% end %>
-    </div>
-  </section>
-</main>
+<header class="notes-header">
+  <%= link_to "Notes App", root_path, class: "brand" %>
+  <div class="notes-header-actions">
+    <% if authenticated? %>
+    <%= link_to "Профиль", profile_path, class:
+    "button button-primary button-small" %>
+    <%= button_to "Выйти", session_path, method: :delete, class:
+    "button button-outline button-small" %>
+    <% else %>
+    <%= link_to "Войти", new_session_path, class:
+    "button button-primary button-small" %>
+    <%= link_to "Регистрация", new_registration_path, class:
+    "button button-outline button-small" %>
+    <% end %>
+  </div>
+</header>
+<%= render "notes/notes_main"%>

@@ -1,0 +1,69 @@
+<main class="notes-app">
+  <section class="notes-content">
+    <div class="page-heading">
+        <div>
+            <p class="eyebrow">Личное пространство</p>
+            <h1>Мои заметки</h1>
+            <p class="muted-text">Соберите мысли, задачи и идеи в одном месте.</p>
+        </div>
+        <%= link_to "+ Новая заметка", new_note_path, class: "button button-primary" %>
+    </div>
+    <div class="notes-toolbar">
+      <form class="search-form" action="#" method="get">
+        <label class="sr-only" for="notes-index-search">Поиск по заметкам</label>
+        <input id="notes-index-search" type="search" placeholder="Поиск по заметкам...">
+        <button type="submit" class="search-button">Найти</button>
+      </form>
+      <%= form_tag notes_path, method: :get do %>
+        <%= select_tag :category_id,
+          options_for_select(
+            [["Все категории", ""], ["Без категории", "none"]] +
+            Category.order(:name).map { |category| [category.name, category.id] },
+            params[:category_id]
+          ),
+          class: "filter-select",
+          aria: { label: "Фильтр по категории" },
+          onchange: "this.form.submit()" %>
+        <%= select_tag :sort,
+          options_for_select(
+            [
+              ["Сначала новые", "newest"],
+              ["Сначала старые", "oldest"],
+              ["По названию", "title"]
+            ],
+            params[:sort].presence || "newest"
+          ),
+          class: "filter-select",
+          aria: { label: "Сортировка" },
+          onchange: "this.form.submit()" %>
+      <% end %>
+    </div>
+    <% if @notes.any? %>
+      <div class="notes-grid">
+        <% @notes.each do |note| %>
+          <article class="note-card">
+            <div class="note-card-topline">
+              <span class="category-badge category-study">
+                <%= note.category&.name || "Без категории" %>
+              </span>
+              <button type="button" class="icon-button" aria-label="Меню заметки">•••</button>
+            </div>
+            <%= link_to note.title, note_path(note), class: "note-title" %>
+            <p class="note-excerpt"><%= note.body %></p>
+            <div class="note-card-footer">
+              <span>Изменено сегодня</span>
+              <%= link_to "Открыть →", note_path(note), class: "note-link" %>
+            </div>
+          </article>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="empty-state">
+        <div class="empty-icon">✦</div>
+        <h2>Пока нет заметок</h2>
+        <p>Создайте первую заметку, чтобы сохранить важную мысль.</p>
+        <%= link_to "Создать заметку", new_note_path, class: "button button-primary" %>
+      </div>
+    <% end %>
+  </section>
+</main>
