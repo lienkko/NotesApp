@@ -14,15 +14,26 @@
 
 * Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
-install ruby
+### Deployment instructions
 
+* install ruby https://www.ruby-lang.org/en/documentation/installation/
+* install ruby on rails
+```
+$ gem install rails
+```
+* install dependencies
+```bash
 $ bundle install --gemfile $APP_DIRECTORY/Gemfile
+```
+* migrate database
+```bash
 $ bin/rails db:migrate
+```
+* start server
+```
 $ bin/rails server
-
+```
 **Название проекта:** «Трекер заметок».
-
 Это веб-приложение для создания, хранения и организации личных заметок. Пользователь сможет добавлять новые записи, просматривать список заметок, открывать отдельную заметку, редактировать и удалять ее. Для удобной навигации заметки можно будет искать по заголовку и фильтровать по категории или тегам.
 
 Целевая аудитория проекта — пользователь, которому нужно быстро фиксировать учебные, рабочие и личные мысли в одном месте.
