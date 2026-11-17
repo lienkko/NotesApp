@@ -14,6 +14,7 @@
         <article class="note-card">
           <h2 class="note-title">@<%= user.username %></h2>
           <p class="note-excerpt"><%= user.email_address %></p>
+          <%= link_to "Рабочие области", admin_user_workspaces_path(user), class: "note-link" %>
           <%= form_with model: [:admin, user], method: :patch do |form| %>
             <%= form.label :role, "Роль" %>
             <%= form.select :role, User.roles.keys.map { |role| [role == "admin" ? "Администратор" : "Пользователь", role] }, {}, class: "form-input" %>

@@ -5,7 +5,9 @@ Rails.application.routes.draw do
   resource :registration, only: %i[new create]
 
   namespace :admin do
-    resources :users, only: %i[index update]
+    resources :users, only: %i[index update] do
+      resources :workspaces, only: :index
+    end
   end
 
   resources :workspaces, only: %i[index new create show]

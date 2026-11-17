@@ -15,6 +15,18 @@ class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select "h2", /@#{@user.username}/
   end
 
+  test "admin can view a user's owned and shared workspaces" do
+    workspace = workspaces(:one)
+    workspace.workspace_memberships.create!(user: @user)
+
+    get admin_user_workspaces_path(@user)
+
+    assert_response :success
+    assert_select "h1", /@#{@user.username}/
+    assert_select "h2", text: workspace.name
+    assert_select "h2", text: workspaces(:two).name
+  end
+
   test "admin can change a user's role" do
     patch admin_user_path(@user), params: { user: { role: "admin" } }
 
@@ -30,6 +42,15 @@ class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to root_path
     assert_not @user.reload.admin?
+  end
+
+  test "regular user cannot view another user's workspaces" do
+    sign_out
+    sign_in_as(@user)
+
+    get admin_user_workspaces_path(@admin)
+
+    assert_redirected_to root_path
   end
 
   test "admin cannot remove their own role" do

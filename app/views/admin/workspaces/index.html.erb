@@ -1,0 +1,47 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "notes", "data-turbo-track": "reload" %>
+<% end %>
+
+<header class="notes-header">
+  <%= link_to "Notes App", root_path, class: "brand" %>
+  <%= link_to "Пользователи", admin_users_path, class: "button button-outline button-small" %>
+  <%= link_to "Рабочие области", workspaces_path, class: "button button-outline button-small" %>
+</header>
+
+<main class="notes-app">
+  <section class="notes-content">
+    <div class="page-heading">
+      <div>
+        <p class="eyebrow">Администрирование</p>
+        <h1>Рабочие области @<%= @user.username %></h1>
+        <p class="muted-text"><%= @user.email_address %></p>
+      </div>
+    </div>
+
+    <% if @workspaces.any? %>
+      <div class="notes-grid">
+        <% @workspaces.each do |workspace| %>
+          <article class="note-card">
+            <h2 class="note-title"><%= workspace.name %></h2>
+            <p class="note-excerpt">
+              Владелец: @<%= workspace.user.username %><br>
+              Заметок: <%= workspace.notes.size %><br>
+              Участников: <%= workspace.members.size %>
+            </p>
+            <% if workspace.members.any? %>
+              <p class="muted-text">
+                Участники:
+                <%= workspace.members.map { |member| "@#{member.username}" }.join(", ") %>
+              </p>
+            <% end %>
+          </article>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="empty-state">
+        <h2>Рабочих областей пока нет</h2>
+        <p>У этого пользователя нет собственных или общих рабочих областей.</p>
+      </div>
+    <% end %>
+  </section>
+</main>
