@@ -34,6 +34,12 @@ module Authentication
       redirect_to new_session_path
     end
 
+    def require_admin
+      return if Current.user&.admin?
+
+      redirect_to root_path, alert: "Недостаточно прав."
+    end
+
     def after_authentication_url
       session.delete(:return_to_after_authenticating) || root_url
     end

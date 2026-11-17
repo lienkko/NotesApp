@@ -1,0 +1,26 @@
+<main class="notes-app">
+  <section class="notes-content">
+    <div class="page-heading">
+      <div>
+        <p class="eyebrow">Администрирование</p>
+        <h1>Пользователи</h1>
+        <p class="muted-text">Управление ролями пользователей приложения.</p>
+      </div>
+      <%= link_to "Вернуться к рабочим областям", workspaces_path, class: "button button-outline" %>
+    </div>
+
+    <div class="notes-grid">
+      <% @users.each do |user| %>
+        <article class="note-card">
+          <h2 class="note-title">@<%= user.username %></h2>
+          <p class="note-excerpt"><%= user.email_address %></p>
+          <%= form_with model: [:admin, user], method: :patch do |form| %>
+            <%= form.label :role, "Роль" %>
+            <%= form.select :role, User.roles.keys.map { |role| [role == "admin" ? "Администратор" : "Пользователь", role] }, {}, class: "form-input" %>
+            <%= form.submit "Сохранить", class: "button button-primary" %>
+          <% end %>
+        </article>
+      <% end %>
+    </div>
+  </section>
+</main>

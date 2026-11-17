@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_15_170000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_17_142000) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -61,8 +61,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_15_170000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "username", null: false
+    t.string "role", default: "user", null: false
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
+    t.check_constraint "role IN ('user', 'admin')", name: "users_role_check"
   end
 
   create_table "workspace_memberships", force: :cascade do |t|

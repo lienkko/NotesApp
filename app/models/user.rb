@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  enum :role, { user: "user", admin: "admin" }, default: :user
+
   has_secure_password
   has_many :sessions, dependent: :destroy
   has_many :workspaces, dependent: :destroy
@@ -12,6 +14,7 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: true,
     length: { in: 3..30 },
     format: { with: /\A[a-z0-9_]+\z/ }
+  validates :role, inclusion: { in: roles.keys }
 
   def accessible_workspaces
     Workspace.where(

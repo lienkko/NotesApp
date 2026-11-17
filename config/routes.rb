@@ -4,6 +4,10 @@ Rails.application.routes.draw do
   resource :profile, only: %i[show edit update]
   resource :registration, only: %i[new create]
 
+  namespace :admin do
+    resources :users, only: %i[index update]
+  end
+
   resources :workspaces, only: %i[index new create show]
   post "workspaces/:workspace_id/members",
     to: "workspace_memberships#create",

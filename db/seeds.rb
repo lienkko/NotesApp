@@ -7,3 +7,11 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+if ENV["ADMIN_USERNAME"].present?
+  user = User.find_by!(username: ENV["ADMIN_USERNAME"].strip.downcase)
+  user.update!(role: :admin)
+  puts "Assigned admin role to @#{user.username}."
+else
+  puts "Skipping admin assignment. Set ADMIN_USERNAME to promote a user."
+end
