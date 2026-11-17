@@ -26,13 +26,25 @@
             <p class="note-excerpt">
               Владелец: @<%= workspace.user.username %><br>
               Заметок: <%= workspace.notes.size %><br>
-              Участников: <%= workspace.members.size %>
+              Участников: <%= workspace.members.count { |member| member.id != workspace.user_id } %>
             </p>
-            <% if workspace.members.any? %>
+            <% members = workspace.members.reject { |member| member.id == workspace.user_id } %>
+            <% if members.any? %>
               <p class="muted-text">
                 Участники:
-                <%= workspace.members.map { |member| "@#{member.username}" }.join(", ") %>
+                <%= members.map { |member| "@#{member.username}" }.join(", ") %>
               </p>
+            <% end %>
+            <%= form_with url: admin_workspace_members_path(workspace), method: :post do |form| %>
+              <%= form.text_field :username, required: true, placeholder: "username участника" %>
+              <%= form.submit "Добавить", class: "button button-primary" %>
+            <% end %>
+            <% members.each do |member| %>
+              <%= button_to "Удалить @#{member.username}",
+                    admin_workspace_member_path(workspace, member),
+                    method: :delete,
+                    class: "button button-outline",
+                    form: { data: { turbo_confirm: "Удалить участника из рабочей области?" } } %>
             <% end %>
           </article>
         <% end %>

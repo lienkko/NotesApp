@@ -8,6 +8,10 @@ Rails.application.routes.draw do
     resources :users, only: %i[index update] do
       resources :workspaces, only: :index
     end
+    resources :workspaces, only: [] do
+      resources :members, controller: :workspace_memberships,
+        param: :user_id, only: %i[create destroy]
+    end
   end
 
   resources :workspaces, only: %i[index new create show]
