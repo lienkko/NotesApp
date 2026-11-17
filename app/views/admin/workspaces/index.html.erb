@@ -39,12 +39,16 @@
               <%= form.text_field :username, required: true, placeholder: "username участника" %>
               <%= form.submit "Добавить", class: "button button-primary" %>
             <% end %>
-            <% members.each do |member| %>
-              <%= button_to "Удалить @#{member.username}",
-                    admin_workspace_member_path(workspace, member),
+            <% if members.any? %>
+              <%= form_with url: admin_workspace_remove_members_path(workspace),
                     method: :delete,
-                    class: "button button-outline",
-                    form: { data: { turbo_confirm: "Удалить участника из рабочей области?" } } %>
+                    data: { turbo_confirm: "Удалить выбранного участника из рабочей области?" } do |form| %>
+                <%= form.select :user_id,
+                      members.map { |member| ["@#{member.username}", member.id] },
+                      { prompt: "Выберите участника" },
+                      required: true %>
+                <%= form.submit "Удалить участника", class: "button button-outline" %>
+              <% end %>
             <% end %>
           </article>
         <% end %>

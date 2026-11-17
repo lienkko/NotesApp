@@ -25,6 +25,7 @@ class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select "h1", /@#{@user.username}/
     assert_select "h2", text: workspace.name
     assert_select "h2", text: workspaces(:two).name
+    assert_select "form[data-turbo-confirm='Удалить выбранного участника из рабочей области?']"
   end
 
   test "admin can change a user's role" do

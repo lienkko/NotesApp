@@ -21,7 +21,7 @@ class Admin::WorkspaceMembershipsControllerTest < ActionDispatch::IntegrationTes
     membership = @workspace.workspace_memberships.create!(user: @user)
 
     assert_difference "WorkspaceMembership.count", -1 do
-      delete admin_workspace_member_path(@workspace, @user)
+      delete admin_workspace_remove_members_path(@workspace), params: { user_id: @user.id }
     end
 
     assert_redirected_to admin_user_workspaces_path(@workspace.user)
