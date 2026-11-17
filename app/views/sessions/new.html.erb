@@ -19,8 +19,8 @@
 
     <%= form_with url: session_path, class: "auth-form" do |form| %>
       <div class="form-field">
-        <%= form.label :email_address, "Электронная почта" %>
-        <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "you@example.com", value: params[:email_address] %>
+        <%= form.label :identifier, "Почта или имя пользователя" %>
+        <%= form.text_field :identifier, required: true, autofocus: true, autocomplete: "username", placeholder: "you@example.com или username", value: params[:identifier] %>
       </div>
 
       <div class="form-field">

@@ -8,20 +8,27 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "main.auth-page"
     assert_select "form.auth-form"
-    assert_select "input[type=email]"
+    assert_select "input[name='identifier'][type=text]"
     assert_select "input[type=password]"
     assert_select "input[type=submit][value='Войти']"
   end
 
-  test "create with valid credentials" do
-    post session_path, params: { email_address: @user.email_address, password: "password" }
+  test "create with valid email credentials" do
+    post session_path, params: { identifier: @user.email_address, password: "password" }
+
+    assert_redirected_to root_path
+    assert cookies[:session_id]
+  end
+
+  test "create with valid username credentials" do
+    post session_path, params: { identifier: @user.username, password: "password" }
 
     assert_redirected_to root_path
     assert cookies[:session_id]
   end
 
   test "create with invalid credentials" do
-    post session_path, params: { email_address: @user.email_address, password: "wrong" }
+    post session_path, params: { identifier: @user.email_address, password: "wrong" }
 
     assert_redirected_to new_session_path
     assert_nil cookies[:session_id]

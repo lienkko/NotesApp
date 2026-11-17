@@ -16,6 +16,14 @@ class User < ApplicationRecord
     format: { with: /\A[a-z0-9_]+\z/ }
   validates :role, inclusion: { in: roles.keys }
 
+  def self.authenticate_by_identifier(identifier, password)
+    normalized_identifier = identifier.to_s.strip.downcase
+    user = find_by(email_address: normalized_identifier) ||
+      find_by(username: normalized_identifier)
+
+    user&.authenticate(password)
+  end
+
   def accessible_workspaces
     Workspace.where(
       "workspaces.user_id = :user_id OR EXISTS (
